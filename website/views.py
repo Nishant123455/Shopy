@@ -1,16 +1,12 @@
-from flask import Blueprint, render_template, flash, redirect, request, jsonify
-from .models import Product, Cart, Order
+from flask import Blueprint, render_template, flash, redirect, request, jsonify, url_for
+from .models import Product, Cart, Order, Wishlist
 from flask_login import login_required, current_user
 from . import db
 from intasend import APIService
+from .api import API_PUBLISHABLE_KEY,API_TOKEN
 
 
 views = Blueprint('views', __name__)
-
-API_PUBLISHABLE_KEY = 'ISPubKey_test_81c79b0c-51ca-490f-8dd0-5d34571919d3'
-
-API_TOKEN = 'ISSecretKey_test_5521cdd8-a331-4a23-8e03-5df8e72e3e7b'
-
 
 @views.route('/')
 def home():
@@ -144,13 +140,14 @@ def remove_cart():
 def place_order():
     customer_cart = Cart.query.filter_by(customer_link=current_user.id)
     if customer_cart:
+            
         try:
             total = 0
             for item in customer_cart:
                 total += item.product.current_price * item.quantity
 
             service = APIService(token=API_TOKEN, publishable_key=API_PUBLISHABLE_KEY, test=True)
-            create_order_response = service.collect.mpesa_stk_push(phone_number='8051068189 ', email=current_user.email,
+            create_order_response = service.collect.mpesa_stk_push(phone_number='2547909096649 ', email=current_user.email,
                                                                    amount=total + 200, narrative='Purchase of goods')
 
             for item in customer_cart:
@@ -184,7 +181,6 @@ def place_order():
         flash('Your cart is Empty')
         return redirect('/')
 
-
 @views.route('/orders')
 @login_required
 def order():
@@ -203,5 +199,37 @@ def search():
     return render_template('search.html')
 
 
+@views.route('/add-to-wishlist/<int:product_id>')
+@login_required
+def add_to_wishlist(product_id):
+    # Check if the product is already in the wishlist
+    existing_item = Wishlist.query.filter_by(customer_id=current_user.id, product_id=product_id).first()
+    if not existing_item:
+        wishlist_item = Wishlist(customer_id=current_user.id, product_id=product_id)
+        db.session.add(wishlist_item)
+        db.session.commit()
+        flash('Item added to your wishlist!')
+    else:
+        flash('Item already in your wishlist!')
+    return redirect(request.referrer)
 
+
+@views.route('/wishlist')
+@login_required
+def view_wishlist():
+    # Fetch all items in the wishlist for the current user
+    wishlist_items = Wishlist.query.filter_by(customer_id=current_user.id).all()
+    return render_template('wishlist.html', wishlist_items=wishlist_items)
+
+
+@views.route('/remove-from-wishlist/<int:item_id>')
+@login_required
+def remove_from_wishlist(item_id):
+    # Find the wishlist item by ID and delete it
+    wishlist_item = Wishlist.query.get_or_404(item_id)
+    if wishlist_item.customer_id == current_user.id:
+        db.session.delete(wishlist_item)
+        db.session.commit()
+        flash('Item removed from your wishlist!')
+    return redirect(url_for('views.view_wishlist'))
 

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Your Wishlist</h1>
+
+{% if wishlist_items %}
+    <div class="row">
+        {% for item in wishlist_items %}
+            <div class="col-4" style="background-color: white; padding: 10px; margin-bottom: 15px; border-radius: 10px;">
+                <img src="{{ item.product.product_picture }}" alt="{{ item.product.product_name }}" style="height: 202px; width: 180px; border-radius: 10px;">
+                
+                <h6 style="color: gray; margin-top: 10px;">{{ item.product.product_name }}</h6>
+                
+                <h5 style="font-weight: 600; font-family: 'Times New Roman', Times, serif;">
+                    Rs {{ item.product.current_price }}
+                </h5>
+                
+                {% if item.product.previous_price %}
+                    <strike>
+                        <p style="color: gray;">Rs {{ item.product.previous_price }}</p>
+                    </strike>
+                {% endif %}
+
+                <p>{{ item.product.in_stock }} Items Left</p>
+                
+                <a href="{{ url_for('views.add_to_cart', item_id=item.product.id) }}">Add to Cart</a> |
+                <a href="{{ url_for('views.remove_from_wishlist', item_id=item.id) }}">Remove from Wishlist</a>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>Your wishlist is empty.</p>
+{% endif %}
+
+{% endblock %}

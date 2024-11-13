@@ -1,6 +1,7 @@
 from . import db
 from flask_login import UserMixin
 from datetime import datetime
+from sqlalchemy.sql import func
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -73,6 +74,20 @@ class Order(db.Model):
 
     def __str__(self):
         return '<Order %r>' % self.id
+    
+
+class Wishlist(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
+
+    customer = db.relationship('Customer', backref=db.backref('wishlist_items', lazy=True))
+    product = db.relationship('Product', backref=db.backref('wishlist_entries', lazy=True))
+
+    def __str__(self):
+        return f'<Wishlist Item {self.id}>'
+
+
 
 
 

@@ -1,16 +1,16 @@
 .d-flex .btn{
-    background: orange;
-    border: 2px solid orange;
+    background: rgb(49, 7, 237);
+    border: 2px solid rgb(87, 135, 206);
     border-radius: 8px;
     color: #fff;
 }
 .d-flex .btn:hover{
-    background: rgb(228, 150, 7);
-    border: 2px solid rgb(228, 150, 7);
+    background: rgb(15, 82, 239);
+    border: 2px solid rgb(50, 89, 206);
 }
 
 #right1 :hover{
-    color: orange;
+    color: rgb(32, 87, 169);
     transition: 300ms;
 }
 
@@ -22,16 +22,16 @@
 }
 
 .container .row .col .row .col a {
-    background-color: orange;
-    padding: 10px;
-    border-radius: 10px;
+    background-color: rgb(62, 62, 186);
+    padding: 5px;
+    border-radius: 50px;
     text-decoration: none;
     color: white;
 
 }
 
 .container .row .col .row .col a :hover {
-    background-color: rgb(201, 132, 5);
+    background-color: rgb(60, 10, 242);
 }
 #column :hover{
     transform: scale(0.9);
@@ -40,6 +40,6 @@
 }
 
 #items :hover {
-    color: orange;
+    color: rgb(19, 56, 239);
     transition: 200ms;
 }

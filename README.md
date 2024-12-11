@@ -4,6 +4,8 @@
 
 Shopy is a fully functional e-commerce platform designed to enhance the online shopping experience for users while providing powerful management tools for administrators. Built using Flask, this application combines simplicity, scalability, and a user-friendly interface.
 
+[Visit Shopy](https://shopy-8nyc.onrender.com)
+
 ---
 
 ## Features
@@ -247,5 +249,3 @@ For any queries or feedback, feel free to reach out:
 - **Email**: nishnatmishra7909\@gmail.com
 - **GitHub**: [Nishant123455](https://github.com/Nishant123455)
 
-
- 

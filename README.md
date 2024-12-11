@@ -1,5 +1,4 @@
 # Shopy
-# Shopy
 
 ## Introduction
 

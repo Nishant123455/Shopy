@@ -109,7 +109,7 @@ $ flask run
 
 6. **Access the Application**
 
-Open your browser and navigate to `http://localhost:5000` or visit the deployed application at [Shopy Live Demo](https://shopy-8nyc.onrender.com).
+visit the deployed application at [Shopy Live Demo](https://shopy-8nyc.onrender.com).
 
 ---
 
